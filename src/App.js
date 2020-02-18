@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
 import './App.css';
-// radium is used for style, to support things psuedo selectors and js quiries on inline styles 
-// this is not possible by default -npm install --save radium (save stores it in the package.json)
-import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person';
+import styled from 'styled-components'
+
+const StButton = styled.button`
+background-color: ${props => props.alt ? 'darkred' :'green'};
+color: white;
+font: inherit;
+border: 1px solid black;
+padding: 8px;
+cursor: pointer;
+margin: 5px;
+&:hover { 
+  background-color: ${props => props.alt ? 'red' :'lightgreen'};
+  color: black; 
+}
+`
 
 class App extends Component {
   //initial state of objects
@@ -62,19 +74,6 @@ class App extends Component {
   //everything within render will be executed
   render() {
 
-    //some CSS
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid black',
-      padding: '8px',
-      cursor: 'pointer',
-      //need to put this in '' as they start with ':' they are not valid properties with the quotes they are.
-      ':hover': { backgroundColor: 'lightgreen', color: 'black' },
-      margin: '5px'
-    }
-
     //local variable
     let persons = null;
 
@@ -95,8 +94,6 @@ class App extends Component {
         </div>
       )
 
-      style.backgroundColor = 'darkred'
-      style[':hover'] = { backgroundColor: 'red', color: 'black' }
     }
 
     // const classes = ['Red', 'Bold'].join(' ');
@@ -108,35 +105,17 @@ class App extends Component {
 
 
     return (
-      <StyleRoot>
-        <div className="App">
-          <h1 >Persons</h1>
-          <p className={classes.join(' ')}>List of persons!</p>
-          <button style={style} onClick={() => this.toggelPersonsList()}>{this.state.buttontext}
-          </button>
-          {/* just use the conditinal set persons variable...  */}
-          {persons}
-        </div>
-      </StyleRoot>
-
-      // <button
-      //   style={style}
-      //   onClick={this.nameChangedHandler.bind(this, "Udr13")}>Switch name
-      //   </button>
-      // {/* this a simple example of a toggled person */}
-
-      // {this.state.showPersons === true ?
-      //   <div>
-      //     <Person
-      //       name={this.state.persons[3].name}
-      //       age={this.state.persons[3].age}>
-      //       I like Gymnastics
-      // </Person>
-      //   </div> : null}
-
+      <div className="App">
+        <h1 >Persons</h1>
+        <p className={classes.join(' ')}>List of persons!</p>
+        <StButton alt={this.state.showPersons} onClick={() => this.toggelPersonsList()}>{this.state.buttontext}
+        </StButton>
+        {/* just use the conditinal set persons variable...  */}
+        {persons}
+      </div>
     );
   }
 }
 
 //wrap the comonent in the higher livel component "Radium"
-export default Radium(App);
+export default App;
