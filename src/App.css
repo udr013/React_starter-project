@@ -2,35 +2,33 @@
   text-align: center;
 }
 
-.Red {
+.red {
   color: rgb(194, 29, 29);
 }
 
-.Bold {
+.bold {
   font-weight: bold;
 }
 
-/* .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.Button {
+background-color: green;
+color: white;
+font: inherit;
+border: 1px solid black;
+padding: 8px;
+cursor: pointer;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.Button:hover { 
+  background-color: lightgreen;
+  color: black; 
 }
 
-.App-title {
-  font-size: 1.5em;
+.Button.Red {
+  background-color: rgb(90, 0, 0);
 }
 
-.App-intro {
-  font-size: large;
+.Button.Red:hover { 
+  background-color: rgb(241, 97, 13);
+  color: black; 
 }
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-} */

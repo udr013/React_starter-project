@@ -1,21 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person';
-import styled from 'styled-components'
 
-const StButton = styled.button`
-background-color: ${props => props.alt ? 'darkred' :'green'};
-color: white;
-font: inherit;
-border: 1px solid black;
-padding: 8px;
-cursor: pointer;
-margin: 5px;
-&:hover { 
-  background-color: ${props => props.alt ? 'red' :'lightgreen'};
-  color: black; 
-}
-`
 
 class App extends Component {
   //initial state of objects
@@ -76,6 +62,7 @@ class App extends Component {
 
     //local variable
     let persons = null;
+    let btnClasses = [classes.Button]
 
     // set the above variable depending on showPersons
     if (this.state.showPersons) {
@@ -93,23 +80,24 @@ class App extends Component {
           })}
         </div>
       )
-
+      btnClasses.push(classes.Red)
     }
 
-    // const classes = ['Red', 'Bold'].join(' ');
-    const classes = [];
-    if (this.state.persons.lenth <= 2)
-      classes.push('Red');
-    if (this.state.persons.lenth <= 1)
-      classes.push('Bold');
+    const assignedClasses = [];
+    if (this.state.persons.lenth <= 2){
+    assignedClasses.push(classes.red);
+    }
+    if (this.state.persons.lenth <= 1){
+    assignedClasses.push(classes.bold)
+    }
 
 
     return (
-      <div className="App">
+      <div className={classes.App}>
         <h1 >Persons</h1>
-        <p className={classes.join(' ')}>List of persons!</p>
-        <StButton alt={this.state.showPersons} onClick={() => this.toggelPersonsList()}>{this.state.buttontext}
-        </StButton>
+        <p className={assignedClasses.join(' ')}>List of persons!</p>
+        <button className={btnClasses.join(' ')} onClick={() => this.toggelPersonsList()}>{this.state.buttontext}
+        </button>
         {/* just use the conditinal set persons variable...  */}
         {persons}
       </div>
