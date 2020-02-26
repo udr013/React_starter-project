@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
 import Person from './Person/Person';
+import ErrorHandler from './ErrorHandler/ErrorHandler';
 
 
 class App extends Component {
@@ -70,20 +71,22 @@ class App extends Component {
         <div>
           {/* we get the index for free */}
           {this.state.persons.map((person, index) => {
-            return <Person
+            return <ErrorHandler key={person.id}>
+              <Person
               click={() => this.deletePersonHandler(index)}
               changed={(event) => this.nameChangedHandler(event, person.id)}
               name={person.name}
               age={person.age}
               //key is required for react to efficiently update DOM, so assign a usefull value, like id..
               key={person.id} />
+              </ErrorHandler>
           })}
         </div>
       )
       btnClasses.push(classes.Red)
     }
 
-    const assignedClasses = [];
+    let assignedClasses = [];
     if (this.state.persons.lenth <= 2){
     assignedClasses.push(classes.red);
     }
@@ -105,5 +108,4 @@ class App extends Component {
   }
 }
 
-//wrap the comonent in the higher livel component "Radium"
 export default App;
