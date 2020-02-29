@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import Person from './Person/Person';
-import ErrorHandler from './ErrorHandler/ErrorHandler';
+import Persons from '../Components/Persons/Persons';
+import Cockpit from '../Components/Header/Cockpit';
 
 
 class App extends Component {
@@ -46,7 +46,7 @@ class App extends Component {
     this.setState({ persons: persons })
   }
 
-  toggelPersonsList = () => {
+  togglePersonList = () => {
     const show = this.state.showPersons;
     // note the additional {}
     if (!show) {
@@ -63,44 +63,24 @@ class App extends Component {
 
     //local variable
     let persons = null;
-    let btnClasses = [classes.Button]
-
+    
     // set the above variable depending on showPersons
     if (this.state.showPersons) {
-      persons = (
-        <div>
-          {/* we get the index for free */}
-          {this.state.persons.map((person, index) => {
-            return <ErrorHandler key={person.id}>
-              <Person
-              click={() => this.deletePersonHandler(index)}
-              changed={(event) => this.nameChangedHandler(event, person.id)}
-              name={person.name}
-              age={person.age}
-              //key is required for react to efficiently update DOM, so assign a usefull value, like id..
-              key={person.id} />
-              </ErrorHandler>
-          })}
-        </div>
-      )
-      btnClasses.push(classes.Red)
+      persons = <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler}/>;
     }
-
-    let assignedClasses = [];
-    if (this.state.persons.lenth <= 2){
-    assignedClasses.push(classes.red);
-    }
-    if (this.state.persons.lenth <= 1){
-    assignedClasses.push(classes.bold)
-    }
-
 
     return (
       <div className={classes.App}>
-        <h1 >Persons</h1>
-        <p className={assignedClasses.join(' ')}>List of persons!</p>
-        <button className={btnClasses.join(' ')} onClick={() => this.toggelPersonsList()}>{this.state.buttontext}
-        </button>
+        <Cockpit
+         title={this.props.appTitle}
+         persons={this.state.persons}
+         showPersons={this.state.showPersons}
+         toggle={this.togglePersonList}
+         text={this.state.buttontext}
+         />
         {/* just use the conditinal set persons variable...  */}
         {persons}
       </div>
