@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+// lowercase used for normal functions
 import classes from './App.css';
+// upercase for functional components
 import Persons from '../Components/Persons/Persons';
 import Cockpit from '../Components/Header/Cockpit';
+import Auxiliary from '../hoc/Auxiliary';
+import withClass from "../hoc/withClass";
 
 
 class App extends Component {
@@ -35,7 +39,8 @@ class App extends Component {
       { id: '566', name: 'Lee', age: 84 }
     ],
     showPersons: false,
-    buttontext: 'Show list'
+    buttontext: 'Show list',
+    changeCounter: 0
   }
 
   nameChangedHandler = (event, id) => {
@@ -52,7 +57,14 @@ class App extends Component {
 
     const persons = [...this.state.persons]
     persons[personIndex] = updatedPerson;
-    this.setState({ persons: persons })
+    //set state.persons to new value of local persons, setState might endup in a race condition with another setState
+    // so use prevState explicitly
+    this.setState((prevState, props) => {
+      return { 
+        persons: persons, 
+        // cannot use ++
+        changeCounter: prevState.changeCounter + 1 };
+    });
 
   }
 
@@ -96,7 +108,7 @@ class App extends Component {
     }
 
     return (
-      <div className={classes.App}>
+      <Auxiliary>
         <Cockpit
           title={this.props.appTitle}
           personsLength={this.state.persons.length}
@@ -106,7 +118,7 @@ class App extends Component {
         />
         {/* just use the conditinal set persons variable...  */}
         {persons}
-      </div>
+      </Auxiliary>
     );
   }
 
@@ -118,4 +130,4 @@ class App extends Component {
 
 }
 
-export default App;
+export default withClass(App, classes.App);
