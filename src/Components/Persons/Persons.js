@@ -41,6 +41,8 @@ import Person from './Person/Person';
                 key={person.id}
                 click={() => this.props.clicked(index)}
                 changed={(event) => this.props.changed(event, person.id)}
+                // use context not to pass on variables this component is not interested in..
+                //isAuth={this.props.isAuthenticated}
             />
         }
         )
@@ -50,7 +52,7 @@ import Person from './Person/Person';
     componentDidUpdate(prevProps,prevState, snapshot) {
         console.log('[Persons.js] componentDidUpdate')
         console.log(snapshot);
-     }
+     }  
 };
 
 export default Persons;

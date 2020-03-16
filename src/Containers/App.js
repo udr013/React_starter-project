@@ -6,6 +6,7 @@ import Persons from '../Components/Persons/Persons';
 import Cockpit from '../Components/Header/Cockpit';
 import Auxiliary from '../hoc/Auxiliary';
 import withClass from "../hoc/withClass";
+import AuthContext from '../context/auth-context'
 
 
 class App extends Component {
@@ -40,7 +41,8 @@ class App extends Component {
     ],
     showPersons: false,
     buttontext: 'Show list',
-    changeCounter: 0
+    changeCounter: 0,
+    authenticated: false
   }
 
   nameChangedHandler = (event, id) => {
@@ -91,6 +93,10 @@ class App extends Component {
     this.setState({ showPersons: !show });
   }
 
+  loginHandler = () => {
+    this.setState({authenticated : true});
+  }
+
   // lifecyle fourthState
   //everything within render will be executed
   render() {
@@ -104,20 +110,26 @@ class App extends Component {
       persons = <Persons
         persons={this.state.persons}
         clicked={this.deletePersonHandler}
-        changed={this.nameChangedHandler} />;
+        changed={this.nameChangedHandler}
+        isAuthenticated= {this.state.authenticated}
+        />;
     }
 
     return (
       <Auxiliary>
+        <AuthContext.Provider value={{authenticated: this.state.authenticated, login: this.loginHandler}}>
         <Cockpit
           title={this.props.appTitle}
           personsLength={this.state.persons.length}
           showPersons={this.state.showPersons}
           toggle={this.togglePersonList}
-          text={this.state.buttontext}
+          text={this.state.buttontext}  
+          // we use context now..
+          // login={this.loginHandler}
         />
         {/* just use the conditinal set persons variable...  */}
         {persons}
+        </AuthContext.Provider>
       </Auxiliary>
     );
   }
